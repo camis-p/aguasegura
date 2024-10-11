@@ -1,0 +1,183 @@
+#logo {
+    padding-left: 10px;
+    max-width: 60%;
+    height: auto;
+    max-height: 80px; /* Tamanho padrão para telas grandes */
+}
+
+/* Menu toggle para dispositivos móveis */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #b4d3dd5e;
+    border-radius: 1ch;
+    max-width: 20%;
+    margin-right: 45px;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    border-radius: 5px;
+    background-color: #073a49;
+    margin: 3px 0;
+}
+
+.menu-toggle:hover {
+    background-color: #a9c6d1;
+    border-radius: 1ch;
+}
+
+.barra {
+    display: flex;
+    position: fixed;
+    top: -1px;
+    backdrop-filter: blur(30px);
+    justify-content: space-between;
+    align-items: center;
+    background-color: #b4d3dd75;
+    position: fixed;
+    width: 100%;
+    padding: 10px 20px;
+    box-shadow: 0 1px 4px #74898f;
+}
+
+.barra a {
+    font-weight: 500;
+    padding-bottom: 0px;
+    margin: 30px;
+}
+
+.nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #b4d3dd75;
+    position: fixed;
+    top: 90px;
+    left: 0;
+    text-align: center;
+    border-radius: 0px 0px 20px 20px;
+    backdrop-filter: blur(30px);
+    box-shadow: 0 1px 4px #74898f;
+    width: 100%;
+    padding: 5px 0px;
+}
+
+.nav-big {
+    display: none;
+}
+
+.nav-links.active {
+    display: block;
+}
+
+.nav-links a {
+    display: block;
+    margin: 7px auto;
+    text-align: center;
+    width: 200px;
+    padding: 3px 0px;
+    font-weight: 500;
+    background-color: #b4d3dd5e;
+    backdrop-filter: blur(30px);
+    border-radius: 1ch;
+}
+
+.menu-toggle {
+    display: flex;
+}
+
+#inicio {
+    display: block;
+    margin-top: 100px;
+}
+
+.alinhar {
+    display: block;
+}
+
+#quemsomos .alinhar {
+    padding: 10px 30px;
+}
+
+.secao {
+    max-width: 100%;
+}
+
+.secao h2 {
+    max-width: 80%;
+}
+
+.bloco {
+    text-align: justify;
+    margin: 15px 0;
+}
+
+#inicio .bloco, #quemsomos .bloco, #tutorial .bloco {
+    max-width: 100%;
+}
+
+.foto {
+    display: block;
+    max-height: 300px;
+    max-width: 70%;
+    height: auto;
+    text-align: center;
+}
+
+#inicio .foto {
+    max-height: 300px;
+    margin: 0px auto;
+}
+
+#quemsomos .foto {
+    max-width: 50%;
+    max-height: 250px;
+    margin: 15px auto;
+}
+
+#tutorial .foto {
+    max-width: 60%;
+    max-height: 250px;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+.icon {
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.rodape {
+    padding: 20px;
+}
+
+.minibloco {
+    text-align: center;
+}
+
+#tutorial .secao {
+    text-align: left;
+}
+
+#tutorial .bloco {
+    max-width: 100%;
+    text-align: left;
+}
+
+#tutorial .alinhar {
+    padding: 50px 30px 10px 30px;
+}
+
+.miniblock {
+    background-color: #b4d3dd5e;
+    display: block;
+    text-align: center;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 1ch;
+}

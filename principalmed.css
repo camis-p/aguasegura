@@ -1,0 +1,98 @@
+#logo {
+    padding-left: 10px;
+    max-width: 60%;
+    height: auto;
+    max-height: 80px; /* Tamanho padrão para telas grandes */
+}
+
+.barra {
+    display: flex;
+    position: fixed;
+    top: -1px;
+    backdrop-filter: blur(30px);
+    justify-content: space-between;
+    align-items: center;
+    background-color: #b4d3dd75;
+    position: fixed;
+    width: 100%;
+    padding: 10px 20px;
+    box-shadow: 0 1px 4px #74898f;
+}
+
+.barra a {
+    font-weight: 500;
+    padding-bottom: 0px;
+    margin: 30px;
+}
+
+/* Menu toggle para dispositivos móveis */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #b4d3dd5e;
+    border-radius: 1ch;
+    max-width: 20%;
+    margin-right: 45px;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    border-radius: 5px;
+    background-color: #073a49;
+    margin: 3px 0;
+}
+
+.menu-toggle:hover {
+    background-color: #a9c6d1;
+    border-radius: 1ch;
+}
+
+.nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #b4d3dd75;
+    position: fixed;
+    top: 90px;
+    left: 0;
+    text-align: center;
+    border-radius: 0px 0px 20px 20px;
+    backdrop-filter: blur(30px);
+    box-shadow: 0 1px 4px #74898f;
+    width: 100%;
+    padding: 5px 0px;
+}
+
+.nav-big {
+    display: none;
+}
+
+.nav-links.active {
+    display: block;
+}
+
+.nav-links a {
+    display: block;
+    margin: 7px auto;
+    text-align: center;
+    width: 200px;
+    padding: 3px 0px;
+    font-weight: 500;
+    background-color: #b4d3dd5e;
+    backdrop-filter: blur(30px);
+    border-radius: 1ch;
+}
+
+.menu-toggle {
+    display: flex;
+}
+
+#inicio {
+    margin-top: 100px;
+}
+
+#tutorial .alinhar {
+    padding: 50px 30px 30px 20px;
+}
