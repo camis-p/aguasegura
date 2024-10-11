@@ -79,6 +79,10 @@ a:active {
     justify-content: space-between;
     align-items: center;
     backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    -moz-backdrop-filter: blur(30px);
+    -o-backdrop-filter: blur(30px);
+    -ms-backdrop-filter: blur(30px);
     background-color: #b4d3dd75;
     position: fixed;
     width: 100%;
