@@ -1,0 +1,422 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Body */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 350;
+    font-size: 1em;
+    background-color: rgb(240, 240, 240);
+}
+
+html {
+    scroll-padding-top: 90px;
+}
+
+/* Headings */
+h2 {
+    font-weight: 600;
+    font-size: 2em;
+}
+
+h3 {
+    font-weight: 600;
+    font-size: 1.6em;
+    background-color: rgb(200, 226, 238);
+    padding: 20px 75px;
+    border-radius: 1em 1em 0em 0em;
+    margin-top: 45px;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: rgb(0, 102, 143);
+    border-bottom: 3px solid rgb(0, 102, 143);
+}
+
+a:active {
+    color: rgb(94, 204, 255);
+    border-bottom: 3px solid rgb(94, 204, 255);
+}
+
+/* Background */
+.fundo-azul {
+    background-color: #B4D3DD;
+}
+
+.fundo-foto {
+    background-image: url("imagens/agua2.png");
+}
+
+.fundo-foto2 {
+    background-image: url("imagens/agua6.png");
+    background-size: cover;
+}
+
+/* Buttons */
+button {
+    background: none;
+    color: inherit;
+    border: none;
+}
+
+/* Buttons */
+.botao {
+    border-radius: 1ch;
+    background-color: rgb(0, 83, 88);
+    font-weight: 400;
+    color: white;
+    padding: 10px 30px;
+    display: inline;
+    transition: background-color 0.3s;
+}
+
+.botao:hover {
+    background-color: #2F99B0;
+    color: white;
+}
+
+.botao:active {
+    background-color: rgb(220, 247, 255);
+    color: black;
+}
+
+#logo {
+    padding-left: 50px;
+    max-height: 80px; /* Tamanho padrão para telas grandes */
+    max-width: 35%;
+    height: auto;
+}
+
+.barra {
+    display: flex;
+    position: fixed;
+    top: -1px;
+    padding: 0px;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    -moz-backdrop-filter: blur(30px);
+    -o-backdrop-filter: blur(30px);
+    -ms-backdrop-filter: blur(30px);
+    background-color: #b4d3dd75;
+    position: fixed;
+    width: 100%;
+    z-index: var(--z-fixed);
+    box-shadow: 0 1px 4px #74898f;
+}
+
+/* Options */
+.barra a {
+    font-weight: 500;
+    padding-bottom: 10px;
+    margin: 30px;
+}
+
+.opcao-ativada {
+    border-bottom: 3px solid rgb(0, 83, 88);
+}
+
+/* Sections */
+.secao {
+    max-width: 70%;
+}
+
+.bloco {
+    text-align: justify;
+    margin: 25px 0;
+}
+
+#inicio {
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    padding-top: 70px;
+}
+
+#saibamais {
+    background-color: #B4D3DD;
+}
+
+#quemsomos, #saibamais {
+    border-radius: 2em;
+}
+
+#inicio .bloco {
+    max-width: 500px;
+}
+
+#quemsomos .bloco {
+    max-width: 600px;
+}
+
+#tutorial .bloco {
+    text-align: right;
+}
+
+#tutorial .secao {
+    max-width: 630px;
+    text-align: right;
+}
+
+.alinhar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.alinhar2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#quemsomos .alinhar {
+    padding: 50px 30px;
+}
+
+#tutorial .alinhar {
+    padding: 50px 50px 50px 20px;
+}
+
+#quemsomos .rodape .alinhar {
+    padding: 0px;
+    margin: 0px 10px;
+}
+
+.foto {
+    max-width: 50%;
+    height: auto;
+}
+
+#inicio .foto {
+    max-height: 400px;
+    margin-bottom: 30px;
+}
+
+#quemsomos .foto {
+    max-width: 40%;
+    max-height: 350px;
+}
+
+#tutorial .foto {
+    max-height: 300px;
+    margin-left: 40px;
+}
+
+/* Small Block */
+.minibloco {
+    font-size: 0.75em;
+    color: white;
+    max-width: 200px;
+}
+
+
+.miniblock {
+    display: block;
+    text-align: center;
+    margin: 15px;
+}
+
+.minibloco-centro {
+    border-radius: 1ch;
+    color: rgb(0, 0, 0);
+    max-width: 230px;
+    padding: 15px;
+    text-align: center;
+    margin: 30px;
+    display: inline-block;
+    box-shadow: 3px 3px 2px #012635;
+}
+
+/* Container */
+.container {
+    justify-content: space-evenly;
+    text-align: center;
+    margin: auto;
+    padding: 40px 0px;
+}
+
+.container-maior {
+    background-color: rgb(200, 226, 238);
+}
+
+/* Footer */
+.rodape {
+    background-color: #006181;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 20px 50px;
+    border-radius: 0ch 0ch 2em 2em;
+}
+
+.rodape-sm {
+    background-color: #083b4a;
+    padding: 5px;
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    font-size: 0.8em;
+}
+
+.rodape-tutorial {
+    color: rgb(0, 0, 0);
+    width: 250px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+/* Icons */
+.icon {
+    border-radius: 1ch;
+    background-color: white;
+    padding: 5px;
+    margin: 10px;
+    height: 20px;
+}
+
+.tabela {
+    background-color: antiquewhite;
+    text-align: center;
+}
+
+#analise a:hover { 
+    background: none;
+    color: inherit;
+    border: none;
+}
+
+#analise a:active { 
+    background: none;
+    color: inherit;
+    border: none;
+}
+
+#analise a {
+    padding: 0px;
+    margin: 0px;
+}
+
+.homepage {
+    max-height: 30px;
+    cursor: pointer;
+    padding: 8px;
+    background-color: #e0f0f591;
+    border-radius: 1ch;
+    margin-right: 50px;
+}
+
+.homepage:hover {
+    background-color: #81bed1;
+}
+
+.homepage:active {
+    background-color: #98e7ffab;
+}
+
+/* Title */
+.titulo-analise {
+    font-size: 1.4em;
+    font-weight: 500;
+    background-color: rgb(105, 184, 204);
+    border-radius: 1ch 1ch 0 0;
+    padding: 20px 70px;
+    color: #002e3d;
+}
+
+/* Form */
+.grupo-formulario {
+    margin: auto;
+    width: 80%;
+}
+
+.formulario {
+    margin: 15px auto;
+}
+
+/* Button Container */
+.conteiner-botao {
+    text-align: center;
+    padding: 5px 0px 20px 0px;
+}
+
+/* Result Container */
+.conteiner, #conteiner-resultado {
+    background-color: #f0f8ff;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 120px;
+    max-width: 700px;
+    width: 80%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#conteiner-resultado {
+    display: none;
+    margin-top: 40px;
+    padding-bottom: 10px;
+}
+
+/* Result */
+#aviso {
+    display: none;
+    font-weight: 500;
+    text-align: center;
+    border: solid 1px;
+    border-radius: 1ch;
+    padding: 10px 0px;
+    width: 80%;
+    margin: 20px auto;
+    margin-top: 30px;
+}
+
+/* Information */
+#topico-turbidez, #topico-ph, #topico-dureza, #topico-resultado {
+    display: none;
+    margin: 20px auto;
+    text-align: justify;
+    width: 80%;
+}
+
+#topico-resultado {
+    border-radius: 1ch;
+    padding: 10px 5px;
+    background-color: #81acb891;
+}
+
+#resultado {
+    margin: 0px 15px;
+}
+
+/* Labels */
+label, .titulo-informacao {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #166980;
+}
+
+/* Inputs */
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
