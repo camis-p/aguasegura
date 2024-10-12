@@ -104,3 +104,46 @@
 #tutorial .alinhar {
     padding: 50px 30px 30px 20px;
 }
+
+.minibloco-centro {
+    border-radius: 1ch;
+    color: rgb(0, 0, 0);
+    max-width: 230px;
+    padding: 15px;
+    text-align: center;
+    margin: 20px;
+    display: inline-block;
+    box-shadow: 3px 3px 2px #012635;
+}
+
+.container {
+    justify-content: space-evenly;
+    text-align: center;
+    margin: auto;
+    padding: 40px 0px;
+}
+
+h3 {
+    background-color: rgb(200, 226, 238);
+    padding: 20px 40px;
+    border-radius: 1em 1em 0em 0em;
+    margin-top: 45px;
+}
+
+.grupo-formulario {
+    margin: auto;
+    width: 85%;
+}
+
+.titulo-analise {
+    padding: 20px 50px;
+}
+
+#aviso {
+    width: 85%;
+}
+
+/* Information */
+#topico-turbidez, #topico-ph, #topico-dureza, #topico-resultado {
+    width: 85%;
+}
