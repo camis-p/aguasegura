@@ -379,12 +379,13 @@ button {
 /* Result */
 #aviso {
     display: none;
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 0.9em;
     text-align: center;
     border: solid 1px;
     border-radius: 1ch;
-    padding: 10px 0px;
-    width: 80%;
+    padding: 10px 25px;
+    width: 73%;
     margin: 20px auto;
     margin-top: 30px;
 }
