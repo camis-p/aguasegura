@@ -1,14 +1,25 @@
+const mobileMenu = document.getElementById('mobile-menu');
+const navLinks = document.querySelector('.nav-links');
+
+mobileMenu.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+});
+
+function closeMenu() {
+    navLinks.classList.remove('active');
+}
+
 function check() {
-    // Capturando os valores dos campos
-    document.getElementById('aviso').style.display = 'none';
+    document.getElementById('conteiner-resultado').style.display = 'block';
     document.getElementById('topico-resultado').style.display = 'none';
+    document.getElementById('aviso').style.display = 'none';
     document.getElementById('topico-turbidez').style.display = 'none';
     document.getElementById('topico-ph').style.display = 'none';
     document.getElementById('topico-dureza').style.display = 'none';
 
-    const turbidez = parseFloat(document.getElementById("Turbidez").value);
-    const ph = parseFloat(document.getElementById("pH").value);
-    const dureza = parseFloat(document.getElementById("Dureza").value);
+    const turbidez = document.getElementById("Turbidez").value;
+    const ph = document.getElementById("pH").value;
+    const dureza = document.getElementById("Dureza").value;
 
     let campospreenchidos = 0;
 
@@ -23,140 +34,166 @@ function check() {
     } else if (campospreenchidos === 2) {
         checkDoisCampos(turbidez, ph, dureza);
     } else {
-        mensagemUmCampo(turbidez, ph, dureza);
+        checkTresCampos(turbidez, ph, dureza);
     }
   }
 
 function mensagemErro() {
-    document.getElementById('conteiner-resultado').style.display = 'block';
     document.getElementById('aviso').style.display = 'block';
-    document.getElementById("aviso").innerHTML = "ERRO: Nenhum campo foi preenchido.";
+    document.getElementById("aviso").innerHTML = "<b>ERRO:</b><br>Nenhum campo foi preenchido.";
 }
 
 function mensagemUmCampo(turbidez, ph, dureza) {
-    document.getElementById('aviso').style.display = 'block';
-    document.getElementById("aviso").innerHTML = "Atenção! Quanto menos informação, menos confiável e preciso será o resultado.";
-
-    // Turbidez
-    if (turbidez) document.getElementById('topico-turbidez').style.display = 'block';
-    let statusTurbidez;
-    if (turbidez >= 0 && turbidez <= 1) {
-      statusTurbidez = "A água é cristalina e praticamente livre de partículas suspensas. "+
-            "A turbidez é inferior a 1 NTU. "+
-            "<br>Usos: Ideal para beber, cozinhar e higiene pessoal. "+
-            "Pode ser usada para irrigação, usada em laboratórios e uso industrial.";
-    } else if (turbidez > 1 && turbidez <= 5) {
-      statusTurbidez = "A água é clara, mas pode ter uma leve opacidade. A turbidez varia entre 1 e 5 NTU. "+
-            "<br>Usos: Adequada para beber e cozinhar após tratamento básico. "+
-            "Adequada para usos industriais e irrigação.";
-    } else if (turbidez > 5 && turbidez <= 50) {
-      statusTurbidez = "A água apresenta uma opacidade visível, com turbidez entre 5 e 50 NTU. "+
-            "<br>Usos: Para consumo humano precisa de tratamento (coagulação, floculação, filtração). "+
-            "Usada para irrigação de culturas menos sensíveis. "+
-            "Utilizada em processos industriais que não requerem água "+
-            "de alta pureza como construção civil em misturas";
-    } else if (turbidez > 50 && turbidez <= 500) {
-      statusTurbidez = "A água é visivelmente turva, com turbidez superior a 50 NTU. "+
-            "<br>Usos: Para consumo humano precisa de tratamento (coagulação, floculação, filtração). "+ 
-            "Usos muito específicos na indústria, na construção civil e no tratamento de esgoto. ";
+    if (turbidez < 0 || turbidez > 10000 || ph < 0 || ph > 14 || dureza < 0 || dureza > 1000) {
+        document.getElementById('aviso').style.display = 'block';
+        document.getElementById("aviso").innerHTML = "<b>ERRO:</b><br>O valor está inválido para análise.";
     } else {
-      statusTurbidez = "Não foi possível analisar a turbidez da água.";
-    }
-    document.getElementById("resul_Turbidez").innerHTML = statusTurbidez;
+        document.getElementById('aviso').style.display = 'block';
+        document.getElementById("aviso").innerHTML = "<b>Atenção!</b><br>Quanto menos informação, menos confiável e preciso será o resultado.";
+        let resultado; 
 
-    // pH
-    if (ph) document.getElementById('topico-ph').style.display = 'block';
-    let statusPh;
-    if (ph >= 0 && ph <= 3) {
-        statusPh = "A água muito ácida tem um pH inferior a 3. "+
-            "<br>Usos: Não é seguro para o consumo humano sem o devido tratamento (corrigir o pH da água usando bases). "+
-            "Utilizada em processos industriais específicos, como a limpeza de metais e a produção de produtos químicos. "+
-            "Pode ser usada em processos de neutralização.";
-    } else if (ph > 3 && ph <= 6) {
-        statusPh = "A água ácida tem um pH entre 3 e 6. "+
-            "<br>Usos: Não é seguro para o consumo humano sem o devido tratamento (corrigir o pH da água usando bases). "+
-            "Pode ser usada para irrigação de plantas que preferem solos ácidos. "+
-            "Utilizada em processos de limpeza e desinfecção.";
-    } else if (ph > 6 && ph <= 7) {
-        statusPh = "A água neutra tem um pH de aproximadamente 7. "+
-            "<br>Usos: Ideal para beber, cozinhar e higiene pessoal. "+
-            "Utilizada em processos que requerem água sem propriedades ácidas ou alcalinas, como a irrigação.";
-    } else if (ph > 7 && ph <= 10) {
-        statusPh = "A água levemente alcalina tem um pH entre 7.1 e 10. "+
-            "<br>Usos: Considerada benéfica para a saúde, pode ajudar na neutralização da acidez do corpo. "+
-            "Usada para irrigação, ajuda a corrigir a acidez do solo.";
-    } else if (ph > 10 && ph <= 14) {
-        statusPh = "A água muito alcalina tem um pH superior a 10. "+
-            "<br>Usos: Não é ideal para o consumo humano (precisa de tratamento com ácidos). "+
-            "Utilizada em processos que requerem água alcalina, como a fabricação de sabões e detergentes. "+
-            "Usada para corrigir a acidez do solo em áreas agrícolas.";
-    } else {
-        statusPh = "Não foi possível analisar o pH da água.";
-    }
-    document.getElementById("resul_Ph").innerHTML = statusPh;
+        if (turbidez) {
+            document.getElementById('topico-turbidez').style.display = 'block';
+            let statusTurbidez; 
+            if (turbidez <= 1) {
+                statusTurbidez = "A água é cristalina e praticamente livre de partículas suspensas. A turbidez é inferior a 1 NTU."; 
+                resultado = "Usos: Ideal para beber, cozinhar e higiene pessoal. Pode ser usada para irrigação, usada em laboratórios e uso industrial.";
+            } else if (turbidez <= 5) {
+                statusTurbidez = "A água é clara, mas pode ter uma leve opacidade. A turbidez varia entre 1 e 5 NTU."; 
+                resultado = "Usos: Adequada para beber e cozinhar após tratamento básico. Adequada para usos industriais e irrigação.";
+            } else if (turbidez <= 50) {
+                statusTurbidez = "A água apresenta uma opacidade visível, com turbidez entre 5 e 50 NTU."; 
+                resultado = "Usos: Para consumo humano precisa de tratamento (coagulação, floculação, filtração). Usada para irrigação de culturas menos sensíveis. Utilizada em processos industriais que não requerem água de alta pureza como construção civil em misturas.";
+            } else {
+                statusTurbidez = "A água é visivelmente turva, com turbidez superior a 50 NTU."; 
+                resultado = "Usos: Para consumo humano precisa de tratamento (coagulação, floculação, filtração). Usos muito específicos na indústria, na construção civil e no tratamento de esgoto.";
+            }
+            document.getElementById("resul_Turbidez").innerHTML = statusTurbidez;
+        }
 
-    // Dureza
-    if (dureza) document.getElementById('topico-dureza').style.display = 'block';
-    let statusDureza;
-    if (dureza >= 0 && dureza <= 60) {
-        statusDureza = "A água muito mole tem uma concentração de íons de cálcio e magnésio inferior a 60 mg/L. "+
-            "<br>Usos: Boa para a maioria dos usos. "+
-            "Ideal para beber e cozinhar, pois não deixa resíduos minerais. "+
-            "Excelente para lavar roupas, já que evita a formação de depósitos de sabão. "+
-            "Pode também ser usada para irrigação e na maioria dos processos industriais.";
-    } else if (dureza > 60 && dureza <= 120) {
-        statusDureza = "A água moderadamente dura tem uma concentração de íons de cálcio e magnésio entre 61 e 120 mg/L. "+
-            "<br>Usos: Adequada para beber e cozinhar, embora possa deixar alguns resíduos minerais. "+
-            "Usada para irrigação, pois fornece minerais benéficos às plantas e em processos industriais.";
-    } else if (dureza > 120 && dureza <= 180) {
-        statusDureza = "A água dura tem uma concentração de íons de cálcio e magnésio entre 121 e 180 mg/L. "+
-            "<br>Usos: Pode ser usada para beber e cozinhar, mas pode deixar depósitos minerais em utensílios e encanamentos. "+
-            "Utilizada em processos industriais que não são sensíveis à minerais. "+
-            "Pode ser utilizada na construção civil.";
-    } else if (dureza > 180) {
-        statusDureza = "A água muito dura tem uma concentração de íons de cálcio e magnésio superior a 180 mg/L. "+
-            "<br>Usos: Não recomendada para o dia a dia. "+
-            "Uso industrial específico e pode ser usado na construção civil.";
-    } else {
-        statusDureza = "Não foi possível analisar a dureza da água.";
-    }
-    document.getElementById("resul_Dureza").innerHTML = statusDureza;
+        if (ph) {
+            document.getElementById('topico-ph').style.display = 'block';
+            let statusPh;
+            if (ph <= 3) {
+                statusPh = "A água muito ácida tem um pH inferior a 3.";
+                resultado = "Usos: Não é seguro para o consumo humano sem o devido tratamento (corrigir o pH da água usando bases). Utilizada em processos industriais específicos, como a limpeza de metais e a produção de produtos químicos. Pode ser usada em processos de neutralização.";
+            } else if (ph <= 6) {
+                statusPh = "A água ácida tem um pH entre 3 e 6.";
+                resultado = "Usos: Não é seguro para o consumo humano sem o devido tratamento (corrigir o pH da água usando bases). Pode ser usada para irrigação de plantas que preferem solos ácidos. Utilizada em processos de limpeza e desinfecção.";
+            } else if (ph <= 7) {
+                statusPh = "A água neutra tem um pH de aproximadamente 7.";
+                resultado = "Usos: Ideal para beber, cozinhar e higiene pessoal. Utilizada em processos que requerem água sem propriedades ácidas ou alcalinas, como a irrigação.";
+            } else if (ph <= 10) {
+                statusPh = "A água levemente alcalina tem um pH entre 7 e 10";
+                resultado = "Usos: Considerada benéfica para a saúde, pode ajudar na neutralização da acidez do corpo. Usada para irrigação, ajuda a corrigir a acidez do solo.";
+            } else {
+                statusPh = "A água muito alcalina tem um pH superior a 10.";
+                resultado = "Usos: Não é ideal para o consumo humano (precisa de tratamento com ácidos). Utilizada em processos que requerem água alcalina, como a fabricação de sabões e detergentes. Usada para corrigir a acidez do solo em áreas agrícolas.";
+            }
+            document.getElementById("resul_Ph").innerHTML = statusPh;
+        }
 
-    // Exibindo os resultados
-    document.getElementById('conteiner-resultado').style.display = 'block';
+        if (dureza) {
+            document.getElementById('topico-dureza').style.display = 'block';
+            let statusDureza;
+            if (dureza <= 60) {
+                statusDureza = "A água muito mole tem uma concentração de íons de cálcio e magnésio inferior a 60 mg/L.";
+                resultado = "Usos: Boa para a maioria dos usos. Ideal para beber e cozinhar, pois não deixa resíduos minerais. Excelente para lavar roupas, já que evita a formação de depósitos de sabão. Pode também ser usada para irrigação e na maioria dos processos industriais.";
+            } else if (dureza <= 120) {
+                statusDureza = "A água moderadamente dura tem uma concentração de íons de cálcio e magnésio entre 61 e 120 mg/L.";
+                resultado = "Usos: Adequada para beber e cozinhar, embora possa deixar alguns resíduos minerais. Usada para irrigação, pois fornece minerais benéficos às plantas e em processos industriais.";
+            } else if (dureza <= 180) {
+                statusDureza = "A água dura tem uma concentração de íons de cálcio e magnésio entre 121 e 180 mg/L.";
+                resultado = "Usos: Pode ser usada para beber e cozinhar, mas pode deixar depósitos minerais em utensílios e encanamentos. Utilizada em processos industriais que não são sensíveis à minerais. Pode ser utilizada na construção civil.";
+            } else {
+                statusDureza = "A água muito dura tem uma concentração de íons de cálcio e magnésio superior a 180 mg/L.";
+                resultado = "Usos: Não recomendada para o dia a dia. Uso industrial específico e pode ser usado na construção civil.";
+            }
+            document.getElementById("resul_Dureza").innerHTML = statusDureza;
+        }
+        document.getElementById('topico-resultado').style.display = 'block';
+        document.getElementById("resultado").innerHTML = resultado;
+    }
 }
 
 function checkDoisCampos(turbidez, ph, dureza) {
-    let resultado;
-    document.getElementById('conteiner-resultado').style.display = 'block';
-    document.getElementById('topico-resultado').style.display = 'block';
+    document.getElementById('aviso').style.display = 'block';
 
-    if (turbidez < 0 || turbidez > 500 || ph < 0 || ph > 14 || dureza < 0) {
-        mensagemUmCampo(turbidez, ph, dureza);
-        document.getElementById("resultado").innerHTML = "Um ou mais valores estão inválidos para análise.";
-    } else {
-        if (turbidez && ph) {
-                document.getElementById('topico-turbidez').style.display = 'block';
-                document.getElementById('topico-ph').style.display = 'block';
+    var valoresInvalidos = 0;
+
+    if (turbidez < 0 || turbidez > 10000) {
+        turbidez = '';
+        valoresInvalidos++;
+    }
+    if (ph < 0 || ph > 14) {
+        ph = '';
+        valoresInvalidos++;
+    }
+    if (dureza < 0 || dureza > 1000) {
+        dureza = '';
+        valoresInvalidos++;
+    }
+        
+    switch (valoresInvalidos) {
+        case 1:
+            mensagemUmCampo(turbidez, ph, dureza);
+            document.getElementById("aviso").innerHTML = "<b>Aviso:</b><br>Um dos valores está inválido para análise.";
+            break;
+        case 2:
+            document.getElementById("aviso").innerHTML = "<b>ERRO:</b><br>Os valores estão inválidos para análise.";
+            break;
+        default:
+            document.getElementById("aviso").innerHTML = "<b>Atenção!</b><br>Quanto menos informação, menos confiável e preciso será o resultado.";
+            if (turbidez && ph)
                 mensagemTP(turbidez, ph);
-        } else if (turbidez && dureza) {
-                document.getElementById('topico-turbidez').style.display = 'block';
-                document.getElementById('topico-dureza').style.display = 'block';
+            else if (turbidez && dureza)
                 mensagemTD(turbidez, dureza);
-        } else if (ph && dureza) {
-                document.getElementById('topico-ph').style.display = 'block';
-                document.getElementById('topico-dureza').style.display = 'block';
+            else if (ph && dureza)
                 mensagemPD(ph, dureza);
-        }
     }
 }
 
-function mensagemTP(turbidez, ph) {
-    let statusTurbidez = '';
-    let statusPh = '';
-    let resultado = '';
+function checkTresCampos(turbidez, ph, dureza) {
+    document.getElementById('aviso').style.display = 'block';
 
-    // Condições para o pH
+    var valoresInvalidos = 0;
+
+    if (turbidez < 0 || turbidez > 10000) {
+        turbidez = '';
+        valoresInvalidos++;
+    }
+    if (ph < 0 || ph > 14) {
+        ph = '';
+        valoresInvalidos++;
+    }
+    if (dureza < 0 || dureza > 1000) {
+        dureza = '';
+        valoresInvalidos++;
+    }
+
+    switch (valoresInvalidos) {
+        case 1:
+            checkDoisCampos(turbidez, ph, dureza);
+            document.getElementById("aviso").innerHTML = "<b>Aviso:</b><br>Um dos valores está inválido para análise.";
+            break;     
+        case 2:
+            mensagemUmCampo(turbidez, ph, dureza);
+            document.getElementById("aviso").innerHTML = "<b>Aviso:</b><br>Dois dos valores estão inválidos para análise.";
+            break;
+        case 3:
+            document.getElementById("aviso").innerHTML = "<b>ERRO:</b><br>Os valores estão inválidos para análise.";
+            break;
+        default:
+            document.getElementById('aviso').style.display = 'none';
+            mensagemTresCampos(turbidez, ph, dureza);
+      }      
+}
+
+function mensagemTP(turbidez, ph) {
+    let statusTurbidez;
+    let statusPh;
+    let resultado;
+
     if (ph <= 4) {
         statusPh = "A água está muito ácida (pH entre 0 e 4).";
         if (turbidez <= 1) {
@@ -234,18 +271,19 @@ function mensagemTP(turbidez, ph) {
         }
     }
 
-    // Exibindo os resultados nos elementos HTML
-    document.getElementById("resul_Ph").innerHTML = statusPh;
+    document.getElementById('topico-turbidez').style.display = 'block';
+    document.getElementById('topico-ph').style.display = 'block';
+    document.getElementById('topico-resultado').style.display = 'block';
     document.getElementById("resul_Turbidez").innerHTML = statusTurbidez;
+    document.getElementById("resul_Ph").innerHTML = statusPh;
     document.getElementById("resultado").innerHTML = resultado;
 } 
 
 function mensagemTD(turbidez, dureza) {
-    let statusTurbidez = '';
-    let statusDureza = '';
-    let resultado = '';
+    let statusTurbidez;
+    let statusDureza;
+    let resultado;
 
-    // Condições para a dureza
     if (dureza <= 60) {
         statusDureza = "A água está muito mole (0-60 mg/L).";
         if (turbidez <= 1) {
@@ -308,16 +346,18 @@ function mensagemTD(turbidez, dureza) {
         }
     }
 
-    // Exibindo os resultados nos elementos HTML
+    document.getElementById('topico-turbidez').style.display = 'block';
+    document.getElementById('topico-dureza').style.display = 'block';
+    document.getElementById('topico-resultado').style.display = 'block';
     document.getElementById("resul_Turbidez").innerHTML = statusTurbidez;
     document.getElementById("resul_Dureza").innerHTML = statusDureza;
     document.getElementById("resultado").innerHTML = resultado;
 }
 
 function mensagemPD(ph, dureza) {
-    let statusPh = '';
-    let statusDureza = '';
-    let resultado = '';
+    let statusPh;
+    let statusDureza;
+    let resultado;
 
     if (ph <= 4) {
         statusPh = "A água está muito ácida (pH entre 0 e 4).";
@@ -396,20 +436,383 @@ function mensagemPD(ph, dureza) {
         }
     }
 
-    // Exibindo os resultados nos elementos HTML
+    document.getElementById('topico-ph').style.display = 'block';
+    document.getElementById('topico-dureza').style.display = 'block';
+    document.getElementById('topico-resultado').style.display = 'block';
     document.getElementById("resul_Ph").innerHTML = statusPh;
     document.getElementById("resul_Dureza").innerHTML = statusDureza;
     document.getElementById("resultado").innerHTML = resultado;
 }
 
-const mobileMenu = document.getElementById('mobile-menu');
-const navLinks = document.querySelector('.nav-links');
+function mensagemTresCampos(turbidez, ph, dureza) {
+    let resultado;
+    let statusTurbidez;
+    let statusPh;
+    let statusDureza;
 
-mobileMenu.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-});
+    if (ph <= 3) {
+        statusPh = "A água está muito ácida (pH menor que 3)."
+        if (turbidez <= 1) {
+            statusTurbidez = "A turbidez é considerada muito baixa (0-1 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L)";
+                resultado = "A água é clara, com muito poucas partículas em suspensão, extremamente ácida e com baixa concentração de minerais (mole). Essa combinação é altamente corrosiva para tubulações e equipamentos.<br>Usos: Não recomendada para consumo humano ou para a maioria dos processos industriais, a menos que seja utilizada em indústrias químicas específicas que requerem água ácida e pura, como na fabricação de baterias ou processos de limpeza de metais.<br>Tratamento: Necessário ajuste de pH para neutralidade e adição de minerais.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água corrosiva, com mais minerais. Potencial de incrustação considerável, ainda inadequada para consumo.<br>Usos: Algumas aplicações industriais e irrigação para plantas que toleram acidez (como hortênsias, azaleias, camélias, rododendros, mirtilos, groselhas).<br>Tratamento: Ajuste de pH para neutralidade e controle de dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água corrosiva e com tendência à incrustação.<br>Usos: Processos industriais restritos.<br>Tratamento: Ajuste de pH e redução da dureza.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Água altamente corrosiva e incrustante.<br>Usos: Processos industriais específicos com necessidade de controle rigoroso de qualidade da água.<br>Tratamento: Ajuste de pH e redução significativa da dureza.";
+            }
+        } else if (turbidez <= 5) {
+            statusTurbidez = "A turbidez é considerada baixa (1-5 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L)";
+                resultado = "Água corrosiva e com algumas partículas suspensas. Pouca adequação para consumo humano ou usos comuns.<br>Usos: Indústria especializada.<br>Tratamento: Filtração para reduzir turbidez e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água corrosiva e com leves partículas em suspensão.<br>Usos: Algumas indústrias utilizam, mas não é adequada para consumo.<br>Tratamento: Filtração e ajuste de pH.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água com alta tendência a corrosão e incrustação com presença de partículas em suspensão.<br>Usos: Aplicações limitadas em indústrias.<br>Tratamento: Filtração e ajuste de pH e dureza.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Água com tendência extrema à incrustação e corrosão.<br>Usos: Muito limitada para uso industrial sem tratamento intensivo.<br>Tratamento: Filtração, ajuste de pH e redução da dureza.";
+            }
+        } else if (turbidez <= 50) {
+            statusTurbidez = "A turbidez é considerada moderada (5-50 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L)";
+                resultado = "Água extremamente ácida e com muitas partículas. Inadequada para consumo ou irrigação.<br>Usos: Processos industriais com alta necessidade de filtração.<br>Tratamento: Filtração pesada, ajuste de pH e possível adição de minerais.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água ácida e com muitas partículas, apesar de boa dureza.<br>Usos: Indústria restrita com necessidade de controle de partículas e pH.<br>Tratamento: Filtração, ajuste de pH e controle de dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água corrosiva e com alto potencial de incrustação devido à dureza e à turbidez.<br>Usos: Indústria com pré-tratamento de filtração e ajuste de pH.<br>Tratamento: Necessário filtrar para turbidez e ajustar pH e dureza.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Água altamente corrosiva e com muitos sedimentos. Não adequada para usos comuns sem tratamento.<br>Usos: Indústria muito limitada com necessidade de tratamento intensivo.<br>Tratamento: Filtração pesada, ajuste de pH e remoção de dureza.";
+            }
+        } else if (turbidez <= 100) {
+            statusTurbidez = "A turbidez é considerada alta (50-100 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L)";
+                resultado = "Água ácida e com alta turbidez. Muita corrosão e potencial de contaminação.<br>Usos: Processos industriais específicos com filtração intensiva.<br>Tratamento: Coagulação, floculação, filtração e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água ácida, turva e com minerais dissolvidos, prejudicando ainda mais a qualidade.<br>Usos: Apenas com tratamento extensivo.<br>Tratamento: Filtração para turbidez e ajuste de pH e dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água muito dura, ácida e com alta turbidez, extremamente inadequada para uso direto.<br>Usos: Indústrias com tratamento especializado.<br>Tratamento: Filtração pesada, ajuste de pH e redução de dureza.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Água corrosiva, incrustante e muito turva. Pouca adequação para qualquer uso sem tratamento intensivo.<br>Usos: Indústria altamente especializada.<br>Tratamento: Filtração, ajuste de pH e dureza.";
+            }
+        } else {
+            statusTurbidez = "A turbidez é considerada muito alta (> 100 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L)";
+                resultado = "Água extremamente turva e ácida. Inadequada para qualquer uso sem tratamento intensivo.<br>Usos: Processos industriais raros com necessidade de controle rigoroso.<br>Tratamento: Coagulação, floculação, filtração e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água extremamente inadequada para consumo ou processos industriais comuns.<br>Usos: Indústria com pré-tratamento intensivo.<br>Tratamento: Filtração pesada, ajuste de pH e redução de dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água com dureza alta, pH ácido e turbidez extrema.<br>Usos: Aplicações muito restritas na indústria.<br>Tratamento: Coagulação, floculação, ajuste de pH e dureza.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Água extremamente inadequada para qualquer uso sem tratamento extensivo.<br>Usos: Apenas para processos industriais com exigências específicas e alto controle.<br>Tratamento: Filtração pesada, ajuste de pH e remoção de dureza.";
+            }
+        }
+    } else if (ph <= 6) {
+        statusPh = "A água está ácida (pH entre 3 e 6).";
+        if (turbidez <= 1) {
+            statusTurbidez = "A turbidez é considerada muito baixa (0-1 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Corrosiva, com pouca turbidez e baixo teor de minerais.<br>Usos: Indústria limitada, não adequada para consumo humano.<br>Tratamento: Ajuste de pH para neutralidade, adição de minerais.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Levemente corrosiva, mas com mais minerais, ainda não ideal para consumo.<br>Usos: Irrigação controlada e algumas aplicações industriais.<br>Tratamento: Ajuste de pH, controle de dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Tendência a incrustação, corrosão moderada.<br>Usos: Indústria e algumas aplicações de irrigação.<br>Tratamento: Ajuste de pH e controle de dureza.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Alta corrosão e incrustação, prejudicial para uso geral.<br>Usos: Muito limitado, necessita de tratamento.<br>Tratamento: Ajuste de pH e redução de dureza.";
+            }
+        } else if (turbidez <= 5) {
+            statusTurbidez = "A turbidez é considerada baixa (1-5 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Corrosiva e com algumas partículas, inadequada para consumo.<br>Usos: Indústria limitada.<br>Tratamento: Filtração e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Corrosiva e com turbidez moderada, ainda não ideal para consumo.<br>Usos: Irrigação e indústria.<br>Tratamento: Filtração e ajuste de pH e dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Alta tendência à incrustação, corrosiva, e com presença de partículas.<br>Usos: Indústria limitada e irrigação controlada.<br>Tratamento: Filtração, ajuste de pH e redução da dureza.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Extremamente corrosiva e com incrustação, inadequada para qualquer uso sem tratamento.<br>Usos: Aplicações restritas.<br>Tratamento: Filtração pesada, ajuste de pH e controle de dureza.";
+            }
+        } else if (turbidez <= 50) {
+            statusTurbidez = "A turbidez é considerada moderada (5-50 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Corrosiva, com turbidez visível, inadequada para consumo.<br>Usos: Indústria com necessidade de filtração.<br>Tratamento: Filtração e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Levemente melhor devido à dureza, mas ainda inadequada para consumo direto.<br>Usos: Irrigação e indústria com filtração.<br>Tratamento: Filtração e ajuste de pH e dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Turbidez moderada e alta tendência à incrustação.<br>Usos: Indústria limitada e irrigação após tratamento.<br>Tratamento: Filtração pesada, ajuste de pH e controle de dureza.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Alta turbidez e incrustação significativa, inadequada sem tratamento extensivo.<br>Usos: Aplicações restritas na indústria.<br>Tratamento: Filtração pesada, ajuste de pH e dureza.";
+            }
+        } else if (turbidez <= 100) {
+            statusTurbidez = "A turbidez é considerada alta (50-100 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água ácida com alta turbidez e corrosiva.<br>Usos: Indústria com tratamento intensivo.<br>Tratamento: Coagulação, floculação, filtração e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Moderada acidez e alta turbidez, inadequada para consumo.<br>Usos: Indústria limitada e alguns usos agrícolas.<br>Tratamento: Filtração pesada, ajuste de pH e dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Alta turbidez e tendência à incrustação.<br>Usos: Indústria com tratamento intensivo.<br>Tratamento: Coagulação, floculação, filtração e ajuste de dureza e pH.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Inadequada para qualquer uso sem tratamento extensivo.<br>Usos: Processos industriais restritos.<br>Tratamento: Filtração pesada, ajuste de pH e redução de dureza.";
+            }
+        } else {
+            statusTurbidez = "A turbidez é considerada muito alta (> 100 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Extremamente turva e ácida, inadequada para qualquer uso direto.<br>Usos: Indústria com tratamento intensivo.<br>Tratamento: Coagulação, floculação, filtração e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Alta turbidez, com dureza moderada, ainda inadequada para consumo ou uso comum.<br>Usos: Indústria limitada.<br>Tratamento: Filtração pesada, ajuste de pH e controle de dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água muito turva, com alta dureza, inadequada para qualquer uso sem tratamento.<br>Usos: Aplicações industriais específicas.<br>Tratamento: Filtração pesada, ajuste de pH e redução de dureza.";
+            } else {
+                statusDureza = "Água muito dura (> 180 mg/L).";
+                resultado = "Inadequada para qualquer uso sem tratamento intensivo.<br>Usos: Apenas em processos industriais muito especializados.<br>Tratamento: Coagulação, floculação, filtração e redução de dureza.";
+            }
+        }
+    } else if (ph <= 8) {
+        statusPh = "A água está neutra (pH entre 6 e 8).";
+        if (turbidez <= 1) {
+            statusTurbidez = "A turbidez é considerada muito baixa (0-1 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Boa qualidade para consumo, mas pobre em minerais.<br>Usos: Consumo humano, irrigação e indústrias.<br>Tratamento: Possível remineralização dependendo do uso.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Adequada para consumo e usos gerais.<br>Usos: Consumo humano, irrigação e indústrias.<br>Tratamento: Normalmente não é necessário.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Tendência à incrustação, mas boa para consumo com monitoramento.<br>Usos: Consumo humano, irrigação e indústrias.<br>Tratamento: Monitoramento de dureza e possível redução.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Alta dureza pode prejudicar o uso para consumo ou indústria sem tratamento.<br>Usos: Consumo e indústrias após redução de dureza.<br>Tratamento: Redução de dureza.";
+            }
+        } else if (turbidez <= 5) {
+            statusTurbidez = "A turbidez é considerada baixa (1-5 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Boa para consumo, mas pode requerer filtragem leve.<br>Usos: Consumo humano, indústrias e irrigação.<br>Tratamento: Filtração leve e possível remineralização.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água relativamente clara com uma leve opacidade e quantidade moderada de minerais. Adequada para consumo humano e para a maioria dos usos domésticos e industriais.<br>Usos: Ideal para beber, cozinhar e irrigação.<br>Tratamento: Filtração leve se necessário.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Pode causar incrustação, boa para consumo após filtragem.<br>Usos: Consumo e indústrias com monitoramento.<br>Tratamento: Redução de dureza e filtração.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Incrustação significativa, pode precisar de tratamento.<br>Usos: Consumo e indústrias após tratamento.<br>Tratamento: Filtração e redução de dureza.";
+            }
+        } else if (turbidez <= 50) {
+            statusTurbidez = "A turbidez é considerada moderada (5-50 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água com turbidez moderada e baixa dureza. Pode não ser adequada para consumo sem tratamento.<br>Usos: Irrigação e alguns usos industriais.<br>Tratamento: Filtração para reduzir turbidez e possível remineralização.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água com turbidez moderada, pH neutro e quantidade adequada de minerais. A qualidade é aceitável, mas a turbidez pode afetar a estética.<br>Usos: Consumo humano e indústrias.<br>Tratamento: Filtração leve para reduzir turbidez.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Turbidez moderada e tendência à incrustação. Boa para consumo, mas monitoramento é necessário.<br>Usos: Consumo humano, indústrias e irrigação.<br>Tratamento: Filtração e monitoramento da dureza.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Alta dureza e turbidez moderada, podendo causar sérios problemas de incrustação.<br>Usos: Consumo humano e indústrias após tratamento.<br>Tratamento: Filtração e redução de dureza.";
+            }
+        } else {
+            statusTurbidez = "A turbidez é considerada alta (>50 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água com alta turbidez e baixa dureza, geralmente inadequada para qualquer uso sem tratamento.<br>Usos: Muito limitado, pode ser usada para irrigação após tratamento.<br>Tratamento: Coagulação, floculação e filtração pesada.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água com alta turbidez e dureza moderada, inadequada para consumo humano sem tratamento.<br>Usos: Irrigação e algumas indústrias após tratamento.<br>Tratamento: Coagulação, floculação, filtração.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água com alta turbidez e dureza. O tratamento é crucial para evitar incrustação.<br>Usos: Indústrias e irrigação, mas não para consumo sem tratamento.<br>Tratamento: Filtração e monitoramento da dureza.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Qualidade inadequada devido à alta turbidez e dureza, deve ser tratada antes de qualquer uso.<br>Usos: Limitações severas em consumo humano, necessário tratamento para indústrias.<br>Tratamento: Filtração pesada e redução de dureza.";
+            }
+        }
+    } else if (ph <= 10) {
+        statusPh = "A água está alcalina (pH entre 8 e 10).";
+        if (turbidez <= 1) {
+            statusTurbidez = "A turbidez é considerada muito baixa (0-1 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água alcalina com baixa dureza e muito baixa turbidez, pode ser corrosiva para encanamentos.<br>Usos: Irrigação e algumas indústrias, mas não recomendada para consumo direto sem correção de pH.<br>Tratamento: Ajuste de pH para neutralidade, possível remineralização.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Boa qualidade para irrigação e usos industriais, mas pode causar incrustações em sistemas.<br>Usos: Irrigação, indústrias, não recomendada para consumo sem tratamento.<br>Tratamento: Ajuste de pH, possível redução de dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Incrustações podem ocorrer com mais facilidade, mas a turbidez baixa e o pH alcalino oferecem uma qualidade boa para usos não potáveis.<br>Usos: Indústria e irrigação, pode não ser adequada para consumo sem tratamento.<br>Tratamento: Redução de dureza e ajuste de pH.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Água altamente alcalina e muito dura pode causar incrustações severas em sistemas.<br>Usos: Usos limitados na indústria e agricultura.<br>Tratamento: Redução de dureza e ajuste de pH são essenciais.";
+            }
+        } else if (turbidez <= 5) {
+            statusTurbidez = "A turbidez é considerada baixa (1-5 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água alcalina com leve turbidez e pouca dureza, pode causar corrosão em sistemas metálicos.<br>Usos: Indústrias e irrigação, mas pode não ser adequada para consumo humano sem tratamento.<br>Tratamento: Filtração para remover a turbidez e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Boa para uso industrial e agrícola, mas a turbidez moderada pode necessitar de filtração.<br>Usos: Irrigação e indústrias.<br>Tratamento: Filtração para turbidez e ajuste de pH, monitoramento da dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Incrustações podem ocorrer com facilidade, especialmente em temperaturas elevadas.<br>Usos: Irrigação e indústria, com cuidado na manutenção dos sistemas.<br>Tratamento: Redução de dureza, filtração para turbidez e ajuste de pH.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Alta tendência a incrustações e problemas de encanamento, não recomendada para consumo ou uso sem tratamento pesado.<br>Usos: Indústrias específicas e irrigação com tratamento.<br>Tratamento: Redução de dureza, filtração e ajuste de pH.";
+            }
+        } else if (turbidez <= 50) {
+            statusTurbidez = "A turbidez é considerada moderada (5-50 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água alcalina com turbidez moderada e pouca dureza, pode ser inadequada para consumo humano ou uso industrial direto.<br>Usos: Irrigação limitada e algumas indústrias após tratamento.<br>Tratamento: Filtração pesada e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Turbidez visível, mas ainda adequada para certos usos após filtração.<br>Usos: Indústrias e irrigação após tratamento.<br>Tratamento: Filtração e ajuste de pH, monitoramento da dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "A água apresenta opacidade visível, com partículas em suspensão, é levemente alcalina e tem uma dureza considerável, com alta concentração de minerais (cálcio e magnésio).<br>Usos: Pode ser utilizada para irrigação de plantas que toleram alcalinidade e dureza. Também é adequada para processos industriais que não requerem água muito pura.<br>Tratamento: Coagulação, floculação e filtração, além de redução de dureza e controle da alcalinidade.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Qualidade inadequada para qualquer uso sem tratamento extensivo.<br>Usos: Limitado para indústria e agricultura com tratamento.<br>Tratamento: Filtração, redução de dureza e ajuste de pH.";
+            }
+        } else if (turbidez <= 100) {
+            statusTurbidez = "A turbidez é considerada alta (50-100 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água alcalina com alta turbidez e pouca dureza, inadequada para uso sem tratamento.<br>Usos: Limitado para irrigação e indústrias.<br>Tratamento: Filtração pesada, ajuste de pH e possível remineralização.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água turva e alcalina, inadequada para consumo ou indústrias sem tratamento significativo.<br>Usos: Irrigação e indústrias limitadas.<br>Tratamento: Filtração pesada e ajuste de pH, possível redução de dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água alcalina com turbidez alta e tendência à incrustação.<br>Usos: Indústrias e agricultura com tratamento.<br>Tratamento: Filtração pesada, ajuste de pH e redução de dureza.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Alta alcalinidade, dureza e turbidez, inadequada sem tratamento pesado.<br>Usos: Indústrias específicas com tratamento intensivo.<br>Tratamento: Filtração, ajuste de pH e redução de dureza.";
+            }
+        } else {
+            statusTurbidez = "A turbidez é considerada muito alta (>100 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água alcalina com turbidez muito alta, inadequada para qualquer uso sem tratamento intensivo.<br>Usos: Muito limitado, com necessidade de tratamento extensivo.<br>Tratamento: Coagulação, floculação, filtração, ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Alta turbidez e alcalinidade tornam a água inadequada para consumo ou uso direto.<br>Usos: Apenas algumas indústrias após tratamento intensivo.<br>Tratamento: Coagulação, floculação, filtração e ajuste de pH e dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água extremamente turva e alcalina, com alta dureza.<br>Usos: Indústrias especializadas após tratamento.<br>Tratamento: Coagulação, floculação, filtração e redução de dureza.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Inadequada sem tratamento completo.<br>Usos: Aplicações limitadas em indústrias com tratamento intensivo.<br>Tratamento: Coagulação, floculação, filtração.";
+            }
+        }
+    } else {
+        if (turbidez <= 1) {
+            statusTurbidez = "A turbidez é considerada baixa (1-5 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água muito alcalina e corrosiva, com leve turbidez, inadequada para consumo.<br>Usos: Indústrias e irrigação, mas não recomendada para consumo humano sem tratamento.<br>Tratamento: Filtração para turbidez, ajuste de pH e remineralização.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água com alcalinidade elevada, leve turbidez, adequada para algumas aplicações industriais.<br>Usos: Indústrias, mas consumo humano requer tratamento.<br>Tratamento: Ajuste de pH e monitoramento da dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Alta possibilidade de incrustação, qualidade moderada para usos industriais.<br>Usos: Indústria e irrigação.<br>Tratamento: Filtração para turbidez e ajuste de pH.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Água muito alcalina e dura, pode causar problemas de incrustação severos.<br>Usos: Usos limitados em indústrias.<br>Tratamento: Redução de dureza e ajuste de pH.";
+            }
+        } else if (turbidez <= 50) {
+            statusTurbidez = "A turbidez é considerada moderada (5-50 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água muito alcalina e turva, inadequada para consumo ou usos industriais diretos.<br>Usos: Limitados a irrigação e algumas indústrias após tratamento.<br>Tratamento: Filtração pesada e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água com alta turbidez e alcalinidade, não adequada para consumo humano sem tratamento.<br>Usos: Indústria e irrigação.<br>Tratamento: Filtração e ajuste de pH, possível redução de dureza.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Alta turbidez e dureza, inadequada para uso direto.<br>Usos: Indústrias com tratamento intenso.<br>Tratamento: Filtração e ajuste de pH.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Qualidade insatisfatória para qualquer uso sem tratamento intenso.<br>Usos: Limitados a aplicações industriais com tratamento.<br>Tratamento: Filtração, ajuste de pH e redução de dureza.";
+            }
+        } else if (turbidez <= 100) {
+            statusTurbidez = "A turbidez é considerada alta (50-100 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água extremamente turva e alcalina, inadequada para qualquer uso sem tratamento extensivo.<br>Usos: Irrigação e indústrias, com necessidade de tratamento.<br>Tratamento: Coagulação, floculação, filtração e ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Água alcalina com alta turbidez, inadequada para consumo ou uso direto.<br>Usos: Indústria e agricultura após tratamento.<br>Tratamento: Coagulação, floculação, filtração e ajuste de pH.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água com alta turbidez e dureza, não adequada sem tratamento.<br>Usos: Indústrias com tratamento intensivo.<br>Tratamento: Coagulação, floculação e filtração.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "A água é visivelmente turva, altamente alcalina e com uma grande concentração de minerais. Essa combinação torna a água inadequada para a maioria dos usos, pois pode causar incrustações severas e é irritante para a pele e os olhos.<br>Usos: Limitada para usos industriais muito específicos, como a fabricação de produtos alcalinos, ou em áreas agrícolas para corrigir a acidez do solo, mas mesmo assim, o tratamento extensivo seria necessário.<br>Tratamento: Coagulação, floculação e acidificação para reduzir a alcalinidade, além de abrandamento para reduzir a dureza e remover os sólidos em suspensão.";
+            }
+        } else {
+            statusTurbidez = "A turbidez é considerada muito alta (>100 NTU).";
+            if (dureza <= 60) {
+                statusDureza = "Água muito mole (0-60 mg/L).";
+                resultado = "Água alcalina e extremamente turva, inadequada para qualquer uso sem tratamento intenso.<br>Usos: Muito limitado, com necessidade de tratamento extensivo.<br>Tratamento: Coagulação, floculação, filtração, ajuste de pH.";
+            } else if (dureza <= 120) {
+                statusDureza = "Água moderadamente dura (61-120 mg/L).";
+                resultado = "Alta turbidez e alcalinidade, inadequada para consumo ou uso direto.<br>Usos: Aplicações industriais após tratamento intensivo.<br>Tratamento: Coagulação, floculação, filtração e ajuste de pH.";
+            } else if (dureza <= 180) {
+                statusDureza = "Água dura (121-180 mg/L).";
+                resultado = "Água com altas concentrações de alcalinidade, dureza e turbidez, não adequada sem tratamento.<br>Usos: Indústrias específicas com tratamento intensivo.<br>Tratamento: Coagulação, floculação, filtração e redução de dureza.";
+            } else {
+                statusDureza = "Água muito dura (>180 mg/L).";
+                resultado = "Qualidade inaceitável para qualquer uso sem tratamento extensivo.<br>Usos: Usos limitados, requerendo tratamento intensivo.<br>Tratamento: Coagulação, floculação, filtração e ajuste de dureza e pH.";
+            }
+        }
+    }
 
-function closeMenu() {
-    const menu = document.getElementById('mobile-menu');
-    navLinks.classList.remove('active');
+    document.getElementById("resul_Turbidez").innerHTML = statusTurbidez;
+    document.getElementById("resul_Ph").innerHTML = statusPh;
+    document.getElementById("resul_Dureza").innerHTML = statusDureza;
+    document.getElementById("resultado").innerHTML = resultado;
 }
