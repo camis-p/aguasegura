@@ -748,6 +748,7 @@ function mensagemTresCampos(turbidez, ph, dureza) {
             }
         }
     } else {
+        statusPh = "A água está muito alcalina (pH entre 10 e 14).";
         if (turbidez <= 1) {
             statusTurbidez = "A turbidez é considerada baixa (1-5 NTU).";
             if (dureza <= 60) {
