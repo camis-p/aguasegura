@@ -811,6 +811,10 @@ function mensagemTresCampos(turbidez, ph, dureza) {
         }
     }
 
+    document.getElementById("resul_Turbidez").display = "block";
+    document.getElementById("resul_Ph").display = "block";
+    document.getElementById("resul_Dureza").display = "block";
+    document.getElementById("resultado").display = "block";
     document.getElementById("resul_Turbidez").innerHTML = statusTurbidez;
     document.getElementById("resul_Ph").innerHTML = statusPh;
     document.getElementById("resul_Dureza").innerHTML = statusDureza;
