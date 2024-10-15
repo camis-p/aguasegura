@@ -73,6 +73,7 @@ button {
 
 /* Buttons */
 .botao {
+    cursor: pointer;
     border-radius: 1ch;
     background-color: rgb(0, 83, 88);
     font-weight: 400;
@@ -422,4 +423,11 @@ input[type="number"] {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+#video {
+    display: none; /* O vídeo estará oculto até que o botão seja clicado */
+    width: 100%; /* Define a largura do vídeo para 100% */
+    max-width: 600px; /* Limita a largura máxima do vídeo a 600px */
+    margin: 20px auto;
 }
